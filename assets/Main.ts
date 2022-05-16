@@ -5,8 +5,6 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class Main extends cc.Component {
 
-	@property({ type: cc.Node })
-	aniContent: cc.Node = null;
 	@property({ type: cc.Prefab })
 	aniBtn: cc.Prefab = null;
 	@property({ type: cc.Node })
@@ -31,52 +29,68 @@ export default class Main extends cc.Component {
 		}
 		if (name) return theRequest[name];
 	}
+
+	getWindowParam(key: string): string {
+		return window[key];
+	}
+
+	name: string = null;
+	track: number = 0;
+	alpha: boolean = false;
 	onLoad() {
-		let id = parseInt(this.getUrlParam('id'));
-		Request.getApp().open('index/get_urls', { id: id }, (res: any) => {
-			console.log(res);
-			if (res.errMsg == 'ok') {
-				let data: ReqUrls = res.data;
-				data.json = Request.getApp().domain + 'storage/' + data.json;
-				data.png = Request.getApp().domain + 'storage/' + data.png;
-				data.atlas = Request.getApp().domain + 'storage/' + data.atlas;
-				this.loadRemote(data, (json: cc.JsonAsset, png: cc.Texture2D, atlas: cc.TextAsset) => {
-					console.log('加载完成');
-					let text = atlas.text;
-					let arr = text.split('\n');
-					let name = arr[1];
-					let node: cc.Node = new cc.Node();
-					node.parent = this.node;
-					let spine: sp.Skeleton = node.addComponent(sp.Skeleton);
-					this.spine = spine;
-					let skeletonData: sp.SkeletonData = new sp.SkeletonData();
-					skeletonData.skeletonJson = json.json;
-					skeletonData.textures.push(png);
-					skeletonData.atlasText = atlas.text;
-					skeletonData.textureNames.push(name);
-					spine.skeletonData = skeletonData;
-					let actionNames: string[] = [];
-					for (let key in json.json.animations) {
-						actionNames.push(key);
-					}
-					spine.setAnimation(0, actionNames[0], true);
-					this.createAniBtns(actionNames);
-					this.setTouch();
-				});
+		window['cocos'] = {
+			setName: (name) => {
+				this.name = name;
+				this.spine.setAnimation(this.track, this.name, true);
+			},
+			setColor: (str) => {
+				let color: cc.Color = new cc.Color();
+				cc.Color.fromHEX(color, str);
+				this.backNode.color = color;
+			},
+			setTrack: (track) => {
+				this.track = track;
+				this.spine.setAnimation(this.track, this.name, true);
+			},
+			setAlpha: (alpha) => {
+				this.spine.premultipliedAlpha = alpha;
+			},
+		};
+		let data: ReqUrls = {
+			json: this.getWindowParam('json'),
+			png: this.getWindowParam('png'),
+			atlas: this.getWindowParam('atlas')
+		};
+		this.loadRemote(data, (json: cc.JsonAsset, png: cc.Texture2D, atlas: cc.TextAsset) => {
+			console.log('加载完成');
+			let text = atlas.text;
+			let arr = text.split('\n');
+			let name = arr[1];
+			let node: cc.Node = new cc.Node();
+			node.parent = this.node;
+			let spine: sp.Skeleton = node.addComponent(sp.Skeleton);
+			this.spine = spine;
+			let skeletonData: sp.SkeletonData = new sp.SkeletonData();
+			skeletonData.skeletonJson = json.json;
+			skeletonData.textures.push(png);
+			skeletonData.atlasText = atlas.text;
+			skeletonData.textureNames.push(name);
+			spine.skeletonData = skeletonData;
+			let actionNames: string[] = [];
+			for (let key in json.json.animations) {
+				actionNames.push(key);
 			}
+			this.name = actionNames[0];
+			spine.setAnimation(0, actionNames[0], true);
+			this.createAniBtns(actionNames);
+			this.setTouch();
 		});
+
 	}
 
 
 	createAniBtns(list: string[]) {
-		list.forEach((item: string) => {
-			let node: cc.Node = cc.instantiate(this.aniBtn);
-			node.parent = this.aniContent;
-			node.children[0].getComponent(cc.Label).string = item;
-			node.on(cc.Node.EventType.TOUCH_END, () => {
-				this.spine.setAnimation(this.track, item, true);
-			});
-		});
+		window['func'].aniList(list);
 	}
 
 	protected loadRemote(urls: Urls, call: (json: cc.JsonAsset, png: cc.Texture2D, atlas: cc.TextAsset) => void) {
@@ -120,32 +134,6 @@ export default class Main extends cc.Component {
 		});
 	}
 
-	track: number = 0;
-	setTrack(event, data) {
-		this.track = parseInt(data);
-	}
-
-	amplification() {
-		this.spine.node.scale += 0.1;
-	}
-
-	narrow() {
-		this.spine.node.scale -= 0.1;
-	}
-
-	premultipliedAlpha() {
-		this.spine.premultipliedAlpha = !this.spine.premultipliedAlpha;
-	}
-	backColor: number = 0;
-	setBackColor() {
-		if (this.backColor == 0) {
-			this.backColor = 1;
-			this.backNode.color = new cc.Color(255, 255, 255);
-		} else {
-			this.backColor = 0
-			this.backNode.color = new cc.Color(0, 0, 0);
-		}
-	}
 
 }
 export type Urls = {
@@ -157,7 +145,4 @@ export type ReqUrls = {
 	png: string,
 	json: string,
 	atlas: string,
-	default: string,
-	date: string,
-	id: number
 };

@@ -17,10 +17,32 @@ class Index extends BaseController
 
 	public function index()
 	{
-
+		$key = input('key');
+		if ($key) {
+			$datas = Db::name('datas')->where('pid', $key)->find();
+			if ($datas) {
+				$json = $datas['json'];
+				$png = $datas['png'];
+				$atlas = $datas['atlas'];
+				View::assign('json', Request::domain() . '/storage/' .   str_replace('\\', '/', $json));
+				View::assign('png',  Request::domain() . '/storage/' .  str_replace('\\', '/', $png));
+				View::assign('atlas', Request::domain() . '/storage/' . str_replace('\\', '/', $atlas));
+				return View::fetch();
+			} else {
+				return redirect('/index/spine');
+			}
+		} else {
+			return redirect('/index/spine');
+		}
+	}
+	public function spine()
+	{
 		return View::fetch();
 	}
-
+	public function ske()
+	{
+		return View::fetch();
+	}
 	public function upload()
 	{
 		$png = request()->file('png');
@@ -29,78 +51,32 @@ class Index extends BaseController
 		$png_dir = \think\facade\Filesystem::putFile('topic', $png);
 		$json_dir = \think\facade\Filesystem::putFile('topic', $json);
 		$atlas_dir = \think\facade\Filesystem::putFile('topic', $atlas);
+		$pid =  md5(time() . rand(1000, 9999));
 		$data = [
 			'png' => $png_dir,
 			'json' => $json_dir,
 			'atlas' => $atlas_dir,
 			'date' => date('Y-m-d H:i:s'),
-			'default' => ''
+			'default' => '',
+			'pid' => $pid
 		];
-		$id = Db::name('datas')->insertGetId($data);
-		echo $id;
-	}
-
-	public function get_urls()
-	{
-		$id = $this->get('id');
-		$data = Db::name('datas')->where('id', $id)->find();
-		if ($data) {
-			$arr = [
-				'errMsg' => 'ok',
-				'data' => $data
-			];
-		} else {
-			$arr = [
-				'errMsg' => 'err'
-			];
-		}
-		$this->outputJson($arr);
-	}
-
-
-	/**
-	 * 获取数据
-	 * @param $key 数据名称
-	 * @param $must 布尔类型 是否是必须的参数
-	 */
-	private function get($key, $must = true)
-	{
-		// if (env('app_debug')) {
-		//     /**
-		//      * 在调试模式下使用get参数
-		//      */
-		//     return Request::get($key);
-		// } else {
-		$data = file_get_contents('php://input');
-		// }
-		$arr = json_decode($data, true);
-		if ($must) {
-			if (isset($arr[$key])) {
-				return ($arr[$key]);
-			} else {
-				$res = [
-					'code' => 0,
-					'errMsg' => '缺少必要的参数 (' . $key . ')'
-				];
-				$this->outputJson($res);
-			}
-		} else {
-			if (isset($arr[$key])) {
-				return ($arr[$key]);
-			} else {
-				return null;
-			}
+		$res = Db::name('datas')->insert($data);
+		if ($res) {
+			return redirect('/index/complete?key=' . $pid);
 		}
 	}
-	/**
-	 * 将数组转换成JSON格式并输出
-	 * @param $arr 数组
-	 */
-	private function outputJson($arr = [])
+
+	public function complete()
 	{
-		$json = json_encode($arr, JSON_UNESCAPED_UNICODE);
-		echo $json;
-		header('content-type:application/json');
-		exit();
+		$key = input('key');
+		View::assign('key', $key);
+		View::assign('domain', Request::domain());
+		return View::fetch();
+	}
+
+
+	public function viewer()
+	{
+		return View::fetch();
 	}
 }

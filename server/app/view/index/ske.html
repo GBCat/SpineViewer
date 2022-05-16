@@ -1,0 +1,145 @@
+<!doctype html>
+<!--
+* Tabler - Premium and Open Source dashboard template with responsive and high quality UI.
+* @version 1.0.0-beta6
+* @link https://tabler.io
+* Copyright 2018-2022 The Tabler Authors
+* Copyright 2018-2022 codecalm.net Paweł Kuna
+* Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
+-->
+<html lang="zh">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>SpineViewer-SKE创建
+	</title>
+	<!-- CSS files -->
+	<link href="/static/tabler/dist/css/tabler.min.css" rel="stylesheet" />
+	<link href="/static/tabler/dist/css/tabler-flags.min.css" rel="stylesheet" />
+	<link href="/static/tabler/dist/css/tabler-payments.min.css" rel="stylesheet" />
+	<link href="/static/tabler/dist/css/tabler-vendors.min.css" rel="stylesheet" />
+	<link href="/static/tabler/dist/css/demo.min.css" rel="stylesheet" />
+</head>
+
+<body>
+	<div class="page">
+		<header class="navbar navbar-expand-md navbar-light d-print-none" style="background-color: black;">
+			<div class="container-xl">
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+					<a href=".">
+						<img src="/static/tabler/static/logo.svg" width="110" height="32" alt="Tabler"
+							class="navbar-brand-image">
+					</a>
+				</h1>
+				<div class="navbar-nav flex-row order-md-last">
+					<div class="nav-item d-none d-md-flex me-3">
+						<div class="btn-list">
+							<a href="https://github.com/GBCat/SpineViewer" class="btn" target="_blank" rel="noreferrer">
+								<!-- Download SVG icon from http://tabler-icons.io/i/brand-github -->
+								<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+									viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+									stroke-linecap="round" stroke-linejoin="round">
+									<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+									<path
+										d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+								</svg>
+								源代码
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<div class="page-wrapper">
+			<div class="container-xl">
+				<!-- Page title -->
+				<div class="page-header d-print-none">
+					<div class="row align-items-center">
+						<div class="col">
+							<h2 class="page-title">
+								SpineViewer
+							</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="page-body">
+				<div class="container-xl">
+					<div class="row row-cards">
+						<div class="col-12">
+							<form action="https://httpbin.org/post" method="post" class="card">
+								<div class="card-header">
+									<h4 class="card-title">上传文件</h4>
+								</div>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-xl-6">
+											<div class="row">
+												<div class="col-md-6 col-xl-12">
+													<div class="mb-3">
+														<label class="form-label">类型</label>
+														<div class="form-selectgroup">
+															<label class="form-selectgroup-item">
+
+																<a href="/index/spine" class="btn ">
+																	Spine
+																</a>
+															</label>
+															<label class="form-selectgroup-item">
+																<a  class="btn btn-success">
+																	DragonBonesPro
+																</a>
+															</label>
+														</div>
+													</div>
+													<div class="mb-3" name="DragonBonesPro">
+														<label class="form-label">_tex.json文件</label>
+														<input type="file" class="form-control"
+															name="example-text-input" placeholder="Input placeholder">
+													</div>
+													<div class="mb-3" name="DragonBonesPro">
+														<label class="form-label">_ske.json文件</label>
+														<input type="file" class="form-control"
+															name="example-password-input"
+															placeholder="Input placeholder">
+													</div>
+													<div class="mb-3" name="DragonBonesPro">
+														<label class="form-label">.png文件</label>
+														<input type="file" class="form-control"
+															name="example-password-input"
+															placeholder="Input placeholder">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card-footer text-end">
+									<div class="d-flex">
+										<button type="submit" class="btn btn-primary ms-auto">提交</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Libs JS -->
+	<script src="/static/tabler/dist/libs/nouislider/dist/nouislider.min.js"></script>
+	<script src="/static/tabler/dist/libs/litepicker/dist/litepicker.js"></script>
+	<script src="/static/tabler/dist/libs/tom-select/dist/js/tom-select.base.min.js"></script>
+	<!-- Tabler Core -->
+	<script src="/static/tabler/dist/js/tabler.min.js"></script>
+	<script src="/static/tabler/dist/js/demo.min.js"></script>
+
+</body>
+
+</html>

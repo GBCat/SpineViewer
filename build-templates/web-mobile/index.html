@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+
+	<title>Cocos Creator | SpineView</title>
+
+	<!--http://www.html5rocks.com/en/mobile/mobifying/-->
+	<meta name="viewport"
+		content="width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1" />
+
+	<!--https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html-->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="format-detection" content="telephone=no">
+
+	<!-- force webkit on 360 -->
+	<meta name="renderer" content="webkit" />
+	<meta name="force-rendering" content="webkit" />
+	<!-- force edge on IE -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="msapplication-tap-highlight" content="no">
+
+	<!-- force full screen on some browser -->
+	<meta name="full-screen" content="yes" />
+	<meta name="x5-fullscreen" content="true" />
+	<meta name="360-fullscreen" content="true" />
+
+	<!-- force screen orientation on some browser -->
+	<meta name="screen-orientation" content="landscape" />
+	<meta name="x5-orientation" content="landscape">
+
+	<!--fix fireball/issues/3568 -->
+	<!--<meta name="browsermode" content="application">-->
+	<meta name="x5-page-mode" content="app">
+
+	<!--<link rel="apple-touch-icon" href=".png" />-->
+	<!--<link rel="apple-touch-icon-precomposed" href=".png" />-->
+
+	<link rel="stylesheet" type="text/css" href="style-mobile.css" />
+	<link rel="icon" href="favicon.ico" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+	<link href="/static/tabler/dist/css/tabler.min.css" rel="stylesheet" />
+	<link href="/static/tabler/dist/css/tabler-flags.min.css" rel="stylesheet" />
+	<link href="/static/tabler/dist/css/tabler-payments.min.css" rel="stylesheet" />
+	<link href="/static/tabler/dist/css/tabler-vendors.min.css" rel="stylesheet" />
+	<link href="/static/tabler/dist/css/demo.min.css" rel="stylesheet" />
+</head>
+
+
+<body>
+	<div class="page">
+		<header class="navbar navbar-expand-md navbar-light d-print-none" style="background-color: black;">
+			<div class="container-xl">
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+					<a href=".">
+						<img src="/static/tabler/static/logo.svg" width="110" height="32" alt="Tabler"
+							class="navbar-brand-image">
+					</a>
+				</h1>
+				<div class="navbar-nav flex-row order-md-last">
+					<div class="nav-item d-none d-md-flex me-3">
+						<div class="btn-list">
+							<a href="https://github.com/GBCat/SpineViewer" class="btn" target="_blank" rel="noreferrer">
+								<!-- Download SVG icon from http://tabler-icons.io/i/brand-github -->
+								<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+									viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+									stroke-linecap="round" stroke-linejoin="round">
+									<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+									<path
+										d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+								</svg>
+								源代码
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+		<div class="page-wrapper">
+			<div class="container-xl">
+				<!-- Page title -->
+				<div class="page-header d-print-none">
+					<div class="row align-items-center">
+						<div class="col">
+							<h2 class="page-title">
+								Form elements
+							</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="page-body">
+				<div class="container-xl">
+					<div class="row row-cards">
+						<div class="col-12">
+							<div class="card-header">
+								<h4 class="card-title">Form elements</h4>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-xl-4">
+										<div class="row">
+											<div class="col-md-6 col-xl-12">
+												<div class="mb-3">
+													<div class="form-label">动画</div>
+													<select id="aniList" class="form-select">
+
+													</select>
+												</div>
+												<div class="mb-3">
+													<label class="form-label">Track</label>
+													<input type="number" id="track" min="0" max="99"
+														class="form-control" name="example-text-input" value="0">
+												</div>
+												<div class="mb-3">
+													<div class="form-label">贴图预乘</div>
+													<select id="alpha" class="form-select">
+														<option value="1">开启</option>
+														<option value="0">关闭</option>
+													</select>
+												</div>
+												<div class="mb-3">
+													<label class="form-label">背景颜色</label>
+													<input type="color" id="color" class="form-control"
+														name="example-text-input">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-xl-8" style="height:500px;">
+										<div class="row">
+											<script>
+
+											</script>
+											<canvas id="GameCanvas" oncontextmenu="event.preventDefault()"
+												style="height:500px;"></canvas>
+											<div id="splash">
+												<div class="progress-bar stripes">
+													<span style="width: 0%"></span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card-footer text-end">
+								<div class="d-flex">
+									<button type="button" class="btn btn-primary ms-auto">播放</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!-- Libs JS -->
+	<script src="/static/tabler/dist/libs/nouislider/dist/nouislider.min.js"></script>
+	<script src="/static/tabler/dist/libs/litepicker/dist/litepicker.js"></script>
+	<script src="/static/tabler/dist/libs/tom-select/dist/js/tom-select.base.min.js"></script>
+	<!-- Tabler Core -->
+	<script src="/static/tabler/dist/js/tabler.min.js"></script>
+	<script src="/static/tabler/dist/js/demo.min.js"></script>
+	<script src="src/settings.js" charset="utf-8"></script>
+
+	<script src="main.js" charset="utf-8"></script>
+
+	<script type="text/javascript">
+		(function () {
+			window['json'] = "{$json}";
+			window['atlas'] = "{$atlas}";
+			window['png'] = "{$png}";
+			window['func'] = {
+				aniList: (strs) => {
+					strs.forEach((name) => {
+						console.log(name);
+						let option = document.createElement("option");
+						option.value = name;
+						option.innerHTML = name;
+						let aniList = document.getElementById('aniList');
+						aniList.appendChild(option);
+					});
+				},
+			};
+			let select_track = 0;
+			document.getElementById('aniList').onchange = (res) => {
+				let name = res.target.value;
+				window['cocos'].setName(name);
+			}
+			document.getElementById('track').onchange = (res) => {
+				let track = res.target.value;
+				select_track = track;
+				window['cocos'].setTrack(parseInt(track));
+			}
+			document.getElementById('alpha').onchange = (res) => {
+				let alpha = res.target.value;
+				window['cocos'].setAlpha(!!parseInt(alpha));
+			}
+			document.getElementById('color').onchange = (res) => {
+				let color = res.target.value;
+				window['cocos'].setColor(color);
+			}
+			console.error(window);
+			// open web debugger console
+			if (typeof VConsole !== 'undefined') {
+				window.vConsole = new VConsole();
+			}
+
+			var debug = window._CCSettings.debug;
+			var splash = document.getElementById('splash');
+			splash.style.display = 'block';
+
+			function loadScript(moduleName, cb) {
+				function scriptLoaded() {
+					document.body.removeChild(domScript);
+					domScript.removeEventListener('load', scriptLoaded, false);
+					cb && cb();
+				};
+				var domScript = document.createElement('script');
+				domScript.async = true;
+				domScript.src = moduleName;
+				domScript.addEventListener('load', scriptLoaded, false);
+				document.body.appendChild(domScript);
+			}
+
+			loadScript(debug ? 'cocos2d-js.js' : 'cocos2d-js-min.js', function () {
+				if (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON) {
+					loadScript(debug ? 'physics.js' : 'physics-min.js', window.boot);
+				}
+				else {
+					window.boot();
+				}
+			});
+		})();
+	</script>
+</body>
+
+</html>
