@@ -9,7 +9,8 @@ export default class Main extends cc.Component {
 	aniBtn: cc.Prefab = null;
 	@property({ type: cc.Node })
 	backNode: cc.Node = null;
-
+	@property({ type: cc.Node })
+	logNode: cc.Node = null;
 
 	spine: sp.Skeleton = null;
 	/**
@@ -62,28 +63,39 @@ export default class Main extends cc.Component {
 			atlas: this.getWindowParam('atlas')
 		};
 		this.loadRemote(data, (json: cc.JsonAsset, png: cc.Texture2D, atlas: cc.TextAsset) => {
-			console.log('加载完成');
-			let text = atlas.text;
-			let arr = text.split('\n');
-			let name = arr[1];
-			let node: cc.Node = new cc.Node();
-			node.parent = this.node;
-			let spine: sp.Skeleton = node.addComponent(sp.Skeleton);
-			this.spine = spine;
-			let skeletonData: sp.SkeletonData = new sp.SkeletonData();
-			skeletonData.skeletonJson = json.json;
-			skeletonData.textures.push(png);
-			skeletonData.atlasText = atlas.text;
-			skeletonData.textureNames.push(name);
-			spine.skeletonData = skeletonData;
-			let actionNames: string[] = [];
-			for (let key in json.json.animations) {
-				actionNames.push(key);
+			this.log('加载完成');
+			try {
+				let text = atlas.text;
+				let arr = text.split('\n');
+				let name = arr[1];
+				let node: cc.Node = new cc.Node();
+				node.parent = this.node;
+				let spine: sp.Skeleton = node.addComponent(sp.Skeleton);
+				this.spine = spine;
+				let skeletonData: sp.SkeletonData = new sp.SkeletonData();
+				skeletonData.skeletonJson = json.json;
+				skeletonData.textures.push(png);
+				skeletonData.atlasText = atlas.text;
+				skeletonData.textureNames.push(name);
+				spine.skeletonData = skeletonData;
+				let actionNames: string[] = [];
+				for (let key in json.json.animations) {
+					actionNames.push(key);
+				}
+				if (actionNames.length) {
+					this.name = actionNames[0];
+					spine.setAnimation(0, actionNames[0], true);
+					this.createAniBtns(actionNames);
+					this.setTouch();
+					this.log('');
+				} else {
+					this.log('获取动画列表失败');
+				}
+
+			} catch (error) {
+				this.log('加载动画失败');
+				console.error(error);
 			}
-			this.name = actionNames[0];
-			spine.setAnimation(0, actionNames[0], true);
-			this.createAniBtns(actionNames);
-			this.setTouch();
 		});
 
 	}
@@ -91,6 +103,10 @@ export default class Main extends cc.Component {
 
 	createAniBtns(list: string[]) {
 		window['func'].aniList(list);
+	}
+
+	log(str) {
+		this.logNode.getComponent(cc.Label).string = str;
 	}
 
 	protected loadRemote(urls: Urls, call: (json: cc.JsonAsset, png: cc.Texture2D, atlas: cc.TextAsset) => void) {
@@ -102,18 +118,31 @@ export default class Main extends cc.Component {
 				call(json, png, atlas);
 			}
 		};
+		this.log('正在加载资源');
 		cc.assetManager.loadRemote(urls.png, (err, res: cc.Texture2D) => {
-			if (err) return;
+			if (err) {
+				this.log('.png文件加载失败');
+				return;
+			};
+			this.log('.png文件加载成功');
 			png = res;
 			check();
 		});
 		cc.assetManager.loadRemote(urls.json, (err, res: cc.JsonAsset) => {
-			if (err) return;
+			if (err) {
+				this.log('.json文件加载失败');
+				return;
+			};
+			this.log('.json文件加载成功');
 			json = res;
 			check();
 		});
 		cc.assetManager.loadRemote(urls.atlas, (err, res: cc.TextAsset) => {
-			if (err) return;
+			if (err) {
+				this.log('.atlas文件加载失败');
+				return;
+			};
+			this.log('.atlas文件加载成功');
 			atlas = res;
 			check();
 		});
