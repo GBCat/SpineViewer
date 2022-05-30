@@ -48,9 +48,9 @@ class Index extends BaseController
 		$png = request()->file('png');
 		$json = request()->file('json');
 		$atlas = request()->file('atlas');
-		$png_dir = \think\facade\Filesystem::putFile('topic', $png);
-		$json_dir = \think\facade\Filesystem::putFile('topic', $json);
-		$atlas_dir = \think\facade\Filesystem::putFile('topic', $atlas);
+		$png_dir = \think\facade\Filesystem::putFile('topic/' . md5(time() . rand(1000, 9999)), $png, $png->getOriginalName());
+		$json_dir = \think\facade\Filesystem::putFile('topic/' . md5(time() . rand(1000, 9999)), $json, $json->getOriginalName());
+		$atlas_dir = \think\facade\Filesystem::putFile('topic/' . md5(time() . rand(1000, 9999)), $atlas, $atlas->getOriginalName());
 		$pid =  md5(time() . rand(1000, 9999));
 		$data = [
 			'png' => $png_dir,
