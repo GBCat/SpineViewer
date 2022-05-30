@@ -67,7 +67,7 @@ export default class Main extends cc.Component {
 			try {
 				let text = atlas.text;
 				let arr = text.split('\n');
-				let name = arr[1];
+				let name = arr[1].replace('\r', '');
 				let node: cc.Node = new cc.Node();
 				node.parent = this.node;
 				let spine: sp.Skeleton = node.addComponent(sp.Skeleton);
